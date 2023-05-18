@@ -3,7 +3,7 @@
 <plist version="1.0">
     <dict>
         <key>CFBundleExecutable</key>
-        <string>ipscan</string>
+        <string>imodscan</string>
         <key>CFBundleGetInfoString</key>
         <string>APPNAME VERSION - fast and friendly network scanner</string>
         <key>CFBundleIconFile</key>

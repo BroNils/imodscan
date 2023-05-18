@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Angry IP Scanner - Custom Mod
+Comment=Custom Mod
+GenericName=Custom Mod
+Keywords=angry;ipscan;ip;scan;scanner;imodscan
+Exec=sh /usr/bin/imodscan
+Terminal=false
+Type=Application
+Icon=ipscan
+Categories=Application;Network;Internet;
+StartupWMClass=Angry IP Scanner
+StartupNotify=true

@@ -22,7 +22,7 @@ public class NamedListConfigTest {
 
 	@Before
 	public void setUp() throws Exception {
-		preferences = Preferences.userRoot().node("ipscan-test");
+		preferences = Preferences.userRoot().node("imodscan-test");
 		preferences.node(PREFERENCE_NAME).clear();
 		config = new NamedListConfig(preferences, PREFERENCE_NAME);
 	}

@@ -1,4 +1,4 @@
-Package: ipscan
+Package: imodscan
 Section: net
 Version: VERSION
 Priority: optional
@@ -7,9 +7,9 @@ Installed-Size: 1940
 Depends: DEPENDS java11-runtime
 Maintainer: Anton Keks <anton@azib.net>
 License: GPL-2
-Description: Angry IP Scanner - fast and friendly IP Scanner
+Description: Angry IP Scanner - Custom Mod
  Angry IP Scanner is a cross-platform network scanner written in Java.
  It can scan IP-based networks in any range, scan ports, and resolve
- other information.
+ other information. With Custom Modification to be able scan something more.
  The program provides an easy to use GUI interface and is very extensible,
  see https://angryip.org/ for more information.

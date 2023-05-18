@@ -1,19 +1,19 @@
 ;Installer configuration options for name, version and other items are below
 
 ;ApplicationName is the full application name shown in the installer
-!define ApplicationName "Angry IP Scanner"				
+!define ApplicationName "Angry IP Scanner - Custom Mod"
 	
 ;The name of the applications EXE file.  Used to create a shortcut and ensure it is not running during install
-!define ApplicationEXEName "ipscan.exe"
+!define ApplicationEXEName "imodscan.exe"
 
 ;FooterText appears in the lower left of the installer pages
-!define FooterText "Fast and Friendly Network Scanner"	
+!define FooterText "Custom Mod"
 	
 ;DefaultDirectory is the default directory to install to within Program Files
-!define DefaultDirectory "Angry IP Scanner"
+!define DefaultDirectory "IModScan"
 	
 ;InstallerFileName is the start of the generated installer file. No spaces or invalid Windows file/directory characters.
-!define InstallerFileName "ipscan"
+!define InstallerFileName "imodscan"
 	
 ;AppVersionFull is a full 4 number dotted version number.  No letters, spaces, etc, dots only ex: 1.2.3.4
 !define AppVersionFull "3.VERSION_MINOR.0.0"

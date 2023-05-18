@@ -28,7 +28,7 @@ public class FetcherRegistryTest {
 
 	@Before
 	public void setUp() throws Exception {
-		preferences = Preferences.userRoot().node("ipscan-test");
+		preferences = Preferences.userRoot().node("imodscan-test");
 		preferences.clear();
 		
 		ipFetcher = new IPFetcher();

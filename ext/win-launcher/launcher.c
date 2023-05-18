@@ -36,7 +36,7 @@ void buildCmdLine(LPSTR buf, LPCSTR ownFilename, LPSTR args) {
 	strncat(buf, args, MAX_PATH - strlen(buf));
 }
 
-char *caption = "Angry IP Scanner";
+char *caption = "Angry IP Scanner - Custom Mod";
 char *localCmd = "\\jre\\bin\\javaw";
 char *javaHomeCmd = "\"%JAVA_HOME%\\bin\\javaw\"";
 char *cmd = "javaw";

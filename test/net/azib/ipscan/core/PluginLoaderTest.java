@@ -33,7 +33,7 @@ public class PluginLoaderTest {
 	@Test
 	public void loadFromJarFile() {
 		File pluginLocation = loader.getResourceLocation(getClass().getResource("test-plugin.jar"));
-		loader.loadPluginJars(container, new File(pluginLocation.getParentFile(), "ipscan.jar"));
+		loader.loadPluginJars(container, new File(pluginLocation.getParentFile(), "imodscan.jar"));
 
 		Class<?> plugin = container.get(0);
 		assertEquals("test.TestPlugin", plugin.getName());

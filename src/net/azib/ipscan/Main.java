@@ -100,7 +100,7 @@ public class Main {
 	private static void showFallbackError(String message) {
 		try {
 			System.err.println(message);
-			try { Files.writeString(Path.of(System.getProperty("user.home"), ".swt", "ipscan-crash.txt"), message); } catch (Exception ignore) {}
+			try { Files.writeString(Path.of(System.getProperty("user.home"), ".swt", "imodscan-crash.txt"), message); } catch (Exception ignore) {}
 			if (Platform.MAC_OS)
 				Runtime.getRuntime().exec(new String[] {"osascript", "-e", "display notification \"" + message + "\" with title \"Angry IP Scanner\""});
 			else

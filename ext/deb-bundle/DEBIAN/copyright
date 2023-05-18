@@ -1,5 +1,5 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: ipscan
+Upstream-Name: imodscan
 Upstream-Contact: Anton Keks <support@azib.net>
 Source: https://github.com/angryip/ipscan
 

@@ -89,11 +89,11 @@ def packageTask(String platform, Closure doMore) {
     return tasks.create(platform, Jar) {
         dependsOn = ['classes']
         manifest {
-           attributes 'Implementation-Title': 'Angry IP Scanner',
+           attributes 'Implementation-Title': 'Angry IP Scanner - Custom Mod',
                'Implementation-Version': version,
                'Main-Class': 'net.azib.ipscan.Main',
                'Class-Path': platform == "any" ? "/usr/share/java/swt4.jar /usr/lib/eclipse/swt.jar ./" : "./",
-               'Title': 'Angry IP Scanner',
+               'Title': 'Angry IP Scanner - Custom Mod',
                'Version': version,
                'Build-Date': java.time.LocalDate.now().toString(),
                'URL': 'https://angryip.org/'
@@ -187,7 +187,7 @@ def deb(def platform, def arch, def moreDeps = '') {
     ant.copy(todir: dist) {
         ant.fileset(dir: "ext/deb-bundle")
     }
-    ant.copy(file: "build/libs/${project.name}-${platform}-${version}.jar", todir: "${dist}/usr/lib/ipscan")
+    ant.copy(file: "build/libs/${project.name}-${platform}-${version}.jar", todir: "${dist}/usr/lib/imodscan")
     ant.copy(file: "resources/images/icon128.png", tofile: "${dist}/usr/share/pixmaps/ipscan.png")
 
     ant.replace(file: "${dist}/DEBIAN/control") {
@@ -196,7 +196,7 @@ def deb(def platform, def arch, def moreDeps = '') {
         ant.replacefilter(token: "DEPENDS ", value: moreDeps)
     }
 
-    exec("chmod +x usr/bin/ipscan usr/lib/ipscan/${project.name}-${platform}-${version}.jar", dist)
+    exec("chmod +x usr/bin/imodscan usr/lib/imodscan/${project.name}-${platform}-${version}.jar", dist)
     exec("fakeroot dpkg-deb -Zxz -b deb ${project.name}_${version}_${arch}.deb", "$dist/..")
     ant.delete(dir: dist)
 }
@@ -213,13 +213,13 @@ def rpm(def platform, def arch) {
         ant.replacefilter(token: "VERSION", value: version)
     }
     exec(new String[] {"sh", "-c", "rpmbuild --target ${arch} --define \"_topdir ${new File(dist).absolutePath}\" --define \"platform ${platform}\" -bb SPECS/ipscan.spec"}, dist)
-    ant.move(file: "${dist}/RPMS/${arch}/ipscan-${rpmVersion}-1.${arch}.rpm", todir:'build/libs')
+    ant.move(file: "${dist}/RPMS/${arch}/imodscan-${rpmVersion}-1.${arch}.rpm", todir:'build/libs')
     ant.delete(dir: dist)
 }
 
 def macLauncher(def platform) {
     def dist = buildDir.path + '/libs'
-    def name = 'Angry IP Scanner'
+    def name = 'Angry IP Scanner - Custom Mod'
     exec("cp -rp ext/mac-bundle/. $dist")
     ant.copy(todir: dist) {
         ant.fileset(dir: "ext/mac-bundle")
@@ -295,7 +295,7 @@ task 'win-installer'(dependsOn: 'win64') {
         jlink(installerDir, "AppFiles/jre")
         ant.copy(file: "resources/images/icon.ico", todir: "${installerDir}/AppFiles")
         ant.copy(file: "LICENSE", tofile: "${installerDir}/AppFiles/license.txt")
-        ant.copy(file: "build/libs/${project.name}-win64-${version}.exe", tofile:"${installerDir}/AppFiles/ipscan.exe")
+        ant.copy(file: "build/libs/${project.name}-win64-${version}.exe", tofile:"${installerDir}/AppFiles/imodscan.exe")
         if (platform.startsWith('win')) {
             exec("cmd /c $nsis\\makensis.exe Installer\\Installer.nsi", installerDir)
         }
@@ -303,7 +303,7 @@ task 'win-installer'(dependsOn: 'win64') {
             println("Building of Windows Installer is not supported on other platforms")
             exec("wine $nsis/makensis.exe Installer/Installer.nsi", installerDir)
         }
-        ant.move(file: "${installerDir}/ipscan-$version-setup.exe", todir: "build/libs")
+        ant.move(file: "${installerDir}/imodscan-$version-setup.exe", todir: "build/libs")
         exec("git checkout ${installerDir}/InstallerConfig.nsh")
     }
 }

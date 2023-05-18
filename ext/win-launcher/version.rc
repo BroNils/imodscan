@@ -7,12 +7,12 @@ BEGIN
   BEGIN
     BLOCK "040904E4"
     BEGIN
-      VALUE "CompanyName", "angryip.org"
-      VALUE "FileDescription", "Angry IP Scanner - fast and friendly network scanner"
-      VALUE "InternalName", "ipscan"
-      VALUE "LegalCopyright", "Anton Keks"
-      VALUE "OriginalFilename", "ipscan.exe"
-      VALUE "ProductName", "Angry IP Scanner"
+      VALUE "CompanyName", "angryip.org (modded)"
+      VALUE "FileDescription", "Angry IP Scanner - Custom Mod"
+      VALUE "InternalName", "imodscan"
+      VALUE "LegalCopyright", "Anton Keks, GoogleX"
+      VALUE "OriginalFilename", "imodscan.exe"
+      VALUE "ProductName", "Angry IP Scanner - Custom Mod"
       VALUE "ProductVersion", "3+"
     END
   END

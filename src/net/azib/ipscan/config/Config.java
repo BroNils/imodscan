@@ -26,7 +26,7 @@ public final class Config {
 	private OpenersConfig openersConfig;
 
 	Config() {
-		preferences = Preferences.userRoot().node("ipscan");
+		preferences = Preferences.userRoot().node("imodscan");
 		scannerConfig = new ScannerConfig(preferences);
 		guiConfig = new GUIConfig(preferences);
 		favoritesConfig = new FavoritesConfig(preferences);
