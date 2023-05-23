@@ -12,10 +12,7 @@ import net.azib.ipscan.util.NetBIOSResolver;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.logging.Logger;
 
 import static java.util.logging.Level.WARNING;

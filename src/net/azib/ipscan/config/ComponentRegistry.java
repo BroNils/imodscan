@@ -23,6 +23,8 @@ public class ComponentRegistry {
 		i.register(CommentFetcher.class, FilteredPortsFetcher.class, WebDetectFetcher.class, HTTPSenderFetcher.class,
 			NetBIOSInfoFetcher.class, PacketLossFetcher.class, HTTPProxyFetcher.class, MACVendorFetcher.class);
 		i.register(TXTExporter.class, CSVExporter.class, XMLExporter.class, IPListExporter.class, SQLExporter.class);
+		// custom mod
+		i.register(WebExtensionFetcher.class, DomainFetcher.class);
 	}
 
 	public Injector init() throws Exception {

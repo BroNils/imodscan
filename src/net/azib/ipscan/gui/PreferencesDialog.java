@@ -12,6 +12,7 @@ import net.azib.ipscan.config.Labels;
 import net.azib.ipscan.config.ScannerConfig;
 import net.azib.ipscan.core.PortIterator;
 import net.azib.ipscan.core.net.PingerRegistry;
+import net.azib.ipscan.core.values.WebExtensionMatcher;
 import net.azib.ipscan.fetchers.FetcherException;
 import net.azib.ipscan.gui.util.LayoutHelper;
 import org.eclipse.swt.SWT;
@@ -66,11 +67,20 @@ public class PreferencesDialog extends AbstractModalDialog {
 	private Button allowReports;
 	private Combo languageCombo;
 
+	// custom mod
+	private Composite webExtensionTab;
+	private List webExtensionList;
+	private WebExtensionMatcher tempWebExtensionMatcher;
+
 	public PreferencesDialog(PingerRegistry pingerRegistry, Config globalConfig, ScannerConfig scannerConfig, GUIConfig guiConfig) {
 		this.pingerRegistry = pingerRegistry;
 		this.globalConfig = globalConfig;
 		this.scannerConfig = scannerConfig;
 		this.guiConfig = guiConfig;
+
+		// custom mod
+		this.tempWebExtensionMatcher = (WebExtensionMatcher) scannerConfig.webExtensionMatcher.clone();
+		tempWebExtensionMatcher.addListener(e1 -> webExtensionList.setItems(tempWebExtensionMatcher.getNames()));
 	}
 
 	@Override public void open() {
@@ -149,7 +159,12 @@ public class PreferencesDialog extends AbstractModalDialog {
 		createDisplayTab();		
 		tabItem = new TabItem(tabFolder, SWT.NONE);
 		tabItem.setText(Labels.getLabel("title.preferences.display"));
-		tabItem.setControl(displayTab);		
+		tabItem.setControl(displayTab);
+
+		createWebExtensionTab();
+		tabItem = new TabItem(tabFolder, SWT.NONE);
+		tabItem.setText(Labels.getLabel("title.preferences.webExtension"));
+		tabItem.setControl(webExtensionTab);
 
 		tabFolder.pack();
 	}
@@ -302,6 +317,127 @@ public class PreferencesDialog extends AbstractModalDialog {
 		allowReports = new Button(displayTab, SWT.CHECK);
 		allowReports.setText(Labels.getLabel("preferences.allowReports"));
 	}
+
+	/**
+	 * This method initializes webExtensionTab (custom mod)
+	 */
+	private void createWebExtensionTab() {
+		RowLayout rowLayout = createRowLayout();
+		webExtensionTab = new Composite(tabFolder, SWT.NONE);
+		webExtensionTab.setLayout(rowLayout);
+
+		GridLayout groupLayout = new GridLayout();
+		groupLayout.numColumns = 2;
+		Group webExtensionGroup = new Group(webExtensionTab, SWT.NONE);
+		webExtensionGroup.setLayout(groupLayout);
+		webExtensionGroup.setLayoutData(new RowData(400, SWT.DEFAULT));
+		webExtensionGroup.setText(Labels.getLabel("preferences.webExtension.matcher"));
+
+		Composite listContainer = new Composite(webExtensionGroup, SWT.NONE);
+		GridData listContainerData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		listContainerData.heightHint = 200; // Set the maximum height of the list
+		listContainer.setLayoutData(listContainerData);
+		listContainer.setLayout(new GridLayout());
+
+		webExtensionList = new List(listContainer, SWT.V_SCROLL);
+		webExtensionList.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		// create row for action of List
+		Composite rightRow = new Composite(webExtensionGroup, SWT.NONE);
+		rightRow.setLayout(new RowLayout(SWT.VERTICAL));
+		rightRow.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+
+		Composite leftRow = new Composite(webExtensionGroup, SWT.NONE);
+		leftRow.setLayout(new RowLayout());
+		leftRow.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		((RowLayout) leftRow.getLayout()).fill = true;
+		((RowLayout) leftRow.getLayout()).justify = true;
+		((RowLayout) leftRow.getLayout()).wrap = false;
+
+		Button addButton = new Button(leftRow, SWT.PUSH);
+		addButton.setText(Labels.getLabel("preferences.webExtension.actionAdd"));
+		addButton.setToolTipText(Labels.getLabel("preferences.webExtension.actionAdd.hint"));
+		addButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WebExtensionMatcherDialog dialog = new WebExtensionMatcherDialog(tempWebExtensionMatcher, Labels.getLabel("dialog.webExtension.title.new"));
+				dialog.setDialogType(WebExtensionMatcherDialog.DialogType.NEW);
+				dialog.open();
+			}
+		});
+		Button removeButton = new Button(leftRow, SWT.PUSH);
+		removeButton.setText(Labels.getLabel("preferences.webExtension.actionRemove"));
+		removeButton.setToolTipText(Labels.getLabel("preferences.webExtension.actionRemove.hint"));
+		removeButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int index = webExtensionList.getSelectionIndex();
+				if (index >= 0 && index < tempWebExtensionMatcher.size()) {
+					MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+					messageBox.setText(Labels.getLabel("dialog.webExtension.remove.confirm.title"));
+					messageBox.setMessage(Labels.getLabel("dialog.webExtension.remove.confirm.message"));
+					int response = messageBox.open();
+					if (response == SWT.YES) {
+						tempWebExtensionMatcher.remove(index);
+					}
+				}
+			}
+		});
+		Button editButton = new Button(leftRow, SWT.PUSH);
+		editButton.setText(Labels.getLabel("preferences.webExtension.actionEdit"));
+		editButton.setToolTipText(Labels.getLabel("preferences.webExtension.actionEdit.hint"));
+		editButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int index = webExtensionList.getSelectionIndex();
+				if (index >= 0 && index < tempWebExtensionMatcher.size()) {
+					WebExtensionMatcherDialog dialog = new WebExtensionMatcherDialog(tempWebExtensionMatcher, Labels.getLabel("dialog.webExtension.title.edit"));
+					dialog.setDialogType(WebExtensionMatcherDialog.DialogType.EDIT);
+					dialog.setCurrentIndex(index);
+					dialog.open();
+				}
+			}
+		});
+
+		Button upButton = new Button(rightRow, SWT.PUSH);
+		upButton.setText(Labels.getLabel("preferences.webExtension.actionUp"));
+		upButton.setToolTipText(Labels.getLabel("preferences.webExtension.actionUp.hint"));
+		upButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int index = webExtensionList.getSelectionIndex();
+				if (index > 0) {
+					int newIndex = tempWebExtensionMatcher.moveUpByIndex(index);
+					webExtensionList.select(newIndex);
+					webExtensionList.showSelection();
+				}
+			}
+		});
+		Button downButton = new Button(rightRow, SWT.PUSH);
+		downButton.setText(Labels.getLabel("preferences.webExtension.actionDown"));
+		downButton.setToolTipText(Labels.getLabel("preferences.webExtension.actionDown.hint"));
+		downButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int index = webExtensionList.getSelectionIndex();
+				if (index < tempWebExtensionMatcher.size() - 1) {
+					int newIndex = tempWebExtensionMatcher.moveDownByIndex(index);
+					webExtensionList.select(newIndex);
+					webExtensionList.showSelection();
+				}
+			}
+		});
+
+		// information section
+		RowLayout infoLayout = new RowLayout();
+		Group infoGroup = new Group(webExtensionTab, SWT.NONE);
+		infoGroup.setLayout(infoLayout);
+		infoGroup.setText(Labels.getLabel("preferences.webExtension.info"));
+		infoGroup.setLayoutData(new RowData());
+
+		Label infoLabel = new Label(infoGroup, SWT.NONE);
+		infoLabel.setText(Labels.getLabel("preferences.webExtension.info.text"));
+	}
 	
 	/**
 	 * This method initializes portsTab	
@@ -401,6 +537,9 @@ public class PreferencesDialog extends AbstractModalDialog {
 				languageCombo.select(i);
 			}
 		}
+
+		// custom mod
+		webExtensionList.setItems(scannerConfig.webExtensionMatcher.getNames());
 	}
 	
 	private void savePreferences() {
@@ -443,6 +582,9 @@ public class PreferencesDialog extends AbstractModalDialog {
 			msgBox.setMessage(Labels.getLabel("preferences.language.needsRestart"));
 			msgBox.open();
 		}
+
+		// custom mod
+		scannerConfig.webExtensionMatcher = (WebExtensionMatcher) tempWebExtensionMatcher.clone();
 	}
 
 	/**

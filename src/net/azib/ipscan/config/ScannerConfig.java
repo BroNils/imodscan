@@ -5,6 +5,8 @@
  */
 package net.azib.ipscan.config;
 
+import net.azib.ipscan.core.values.WebExtensionMatcher;
+
 import java.util.prefs.Preferences;
 
 /**
@@ -30,6 +32,9 @@ public class ScannerConfig {
 	public String notAvailableText;
 	public String notScannedText;
 
+	// custom mod
+	public WebExtensionMatcher webExtensionMatcher;
+
 	/**
 	 * Package local constructor.
 	 * It loads all preferences.
@@ -52,6 +57,9 @@ public class ScannerConfig {
 		useRequestedPorts = preferences.getBoolean("useRequestedPorts", true);
 		notAvailableText = preferences.get("notAvailableText", Labels.getLabel("fetcher.value.notAvailable"));
 		notScannedText = preferences.get("notScannedText", Labels.getLabel("fetcher.value.notScanned"));
+
+		// custom mod
+		webExtensionMatcher = WebExtensionMatcher.Deserialize(preferences.get("webExtensionMatcher", ""));
 	}
 		
 	/**
@@ -72,5 +80,8 @@ public class ScannerConfig {
 		preferences.putBoolean("useRequestedPorts", useRequestedPorts);
 		preferences.put("notAvailableText", notAvailableText);
 		preferences.put("notScannedText", notScannedText);
+
+		// custom mod
+		preferences.put("webExtensionMatcher", webExtensionMatcher.serialize());
 	}
 }

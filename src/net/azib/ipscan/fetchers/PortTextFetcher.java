@@ -33,15 +33,15 @@ import static net.azib.ipscan.fetchers.PortsFetcher.PARAMETER_OPEN_PORTS;
  * @author Anton Keks
  */
 public abstract class PortTextFetcher extends AbstractFetcher {
-	private static final Logger LOG = LoggerFactory.getLogger();
+	protected static final Logger LOG = LoggerFactory.getLogger();
 	
-	private ScannerConfig scannerConfig;
+	protected ScannerConfig scannerConfig;
 
 	private int defaultPort;
 	protected boolean scanOpenPorts;
-	protected String textToSend;
-	protected Pattern matchingRegexp;
-	protected int extractGroup;
+	private String textToSend;
+	private Pattern matchingRegexp;
+	private int extractGroup;
 	
 	public PortTextFetcher(ScannerConfig scannerConfig, int defaultPort, String defaultTextToSend, String matchingRegexp) {
 		this.scannerConfig = scannerConfig;
